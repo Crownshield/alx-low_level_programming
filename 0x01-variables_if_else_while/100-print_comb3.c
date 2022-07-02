@@ -1,44 +1,31 @@
-#include <stdlib.h>
-#include <time.h>
 #include <stdio.h>
+
 /**
- * main - Entry point
+ *main - print 00 to 99 with no duplicate digits or combos: no 11, no 10 (01)
  *
- * Return: Always 0 (Success)
+ *Return: Always 0 (Success)
  */
+
 int main(void)
 {
-	int i;
-	int j;
+  int ones;
+  int tens;
 
-	i = 48;
-	j = 48;
-	while  ((i < 58) && (j < 58))
-	{
-		putchar(i);
-		putchar(j);
-		if ((i == 57) && (j == 57))
-		{
-			putchar('\n');
-			i++;
-			j++;
-		}
-		else
-		{
-			putchar(44);
-			putchar(32);
-			if (j < 57)
-			{
-				j++;
-			}
-			else
-			{
-				j = 48;
-				i++;
-			}
-		}
+  for (tens = '0'; tens <= '9'; tens++) /*increment tens*/
+  {
+    for (ones = (tens + 1); ones <= '9'; ones++) /*one's ten+1*/
+    {
+      putchar(tens);
+      putchar(ones);
 
-	}
+      if (tens != '8' || ones != '9') /*print commas*/
+      {
+        putchar(',');
+        putchar(' ');
+      }
+    }
+  }
+  putchar('\n');
 
-	return (0);
+  return (0);
 }
