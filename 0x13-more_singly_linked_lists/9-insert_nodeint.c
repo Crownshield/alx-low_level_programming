@@ -1,53 +1,42 @@
 #include "lists.h"
-
 /**
- * insert_nodeint_at_index - a function that inserts a new node at
- *                           a given position
- *
- * @head: pointer to the first node of the list
- * @idx: is the index of the list where the new node should be added
- * @n: element to add to the new node
- *
- * Return: NULL if anything fails or the address of the new node
-*/
-listint_t *insert_nodeint_at_index(listint_t **head, unsigned int idx, int n)
+ * delete_nodeint_at_index - Entry Point
+ * @head: head
+ * @index: index
+ * Return: 0
+ */
+int delete_nodeint_at_index(listint_t **head, unsigned int index)
 {
-	listint_t *new_node, *current;
-	unsigned int index;
+	unsigned int count = 0;
 
-	current = *head; /*place first node at current*/
+	listint_t *copy;
+	listint_t *temp;
 
-	new_node = malloc(sizeof(listint_t));
-	if ((*head == NULL && idx != 0) || new_node == NULL)
-		return (NULL);
+	if (*head == NULL)
+		return (-1);
 
-	new_node->n = n; /* add our element to the new node*/
+	copy = *head;
 
-	/*iterate list to node position idx - 2*/
-	for (index = 0; head != NULL && index < idx - 1; index++)
+	if (index == 0)
 	{
-		current = current->next;
-		if (current == NULL)
-			return (NULL);
+		temp = copy->next;
+		free(copy);
+		*head = temp;
+		return (1);
 	}
 
-	if (idx == 0) /*if the index for new node is 0*/
+	while (copy != NULL)
 	{
-		/*first node will be moved to second node*/
-		new_node->next = *head;
-		/*new node will be placed as the first node*/
-		*head = new_node;
+		if (count + 1 == index)
+		{
+			temp = copy->next;
+			copy->next = temp->next;
+			free(temp);
+			return (1);
+		}
+		if (copy->next != NULL)
+			copy = copy->next;
+		count++;
 	}
-	else if (current->next) /*if index where to add our new node is not 0*/
-	{
-		new_node->next = current->next; /*place current node after new node*/
-		current->next = new_node;/*set the new node at index idx*/
-	}
-	else /*if node position is not present in the list*/
-	{
-		new_node->next = NULL;/*set next addr as NULL, indicates last node*/
-		current->next = new_node;/*set the new node at the last position in list*/
-	}
-
-	return (new_node);
+	return (-1);
 }
